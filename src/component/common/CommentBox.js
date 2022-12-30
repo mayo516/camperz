@@ -1,66 +1,68 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { postComment } from '../../lib/apis/commentApis';
-import { getCommentList } from '../../lib/apis/commentApis';
 import commentbtn from '../../assets/icons/chat_send.png';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { getMyInfo } from '../../lib/apis/profileApis';
 
-export default function CommentBox({ post_id, setCommentList }) {
-	const [btnHandler, setBtnHandler] = useState(false);
+export default function CommentBox({ post_id, setCommentList, commentList }) {
+	const inputRef = useRef();
 	const [commentContent, setCommentContent] = useState('');
 
 	const CommentInputValidator = (e) => {
 		setCommentContent(e.target.value);
-		if (e.target.value.length === 0) {
-			setBtnHandler(false);
-		}
-		if (e.target.value.length > 0) {
-			setBtnHandler(true);
-		}
 	};
 
 	const btnClickEvent = () => {
-		postComment(post_id, commentContent).then();
-		getCommentList(post_id).then((res) => {
-			setCommentList([...res.data.comments]);
+		postComment(post_id, commentContent).then((res) => {
+			setCommentList([...commentList, res.data.comment]);
 		});
 		setCommentContent('');
-		onAdd((prev) => prev + 1);
+	};
+
+	const enterEventHandler = (e) => {
+		if (commentContent !== '' && e.key === 'Enter') {
+			btnClickEvent();
+		}
 	};
 
 	const [userImg, setUserImg] = useState(null);
 
 	useEffect(() => {
 		getMyInfo().then((res) => {
-			// MyInfoData.userName = res.data.user.username;
 			setUserImg(res.data.user.image);
 		});
 	}, []);
 
 	return (
 		<>
-			<S_CommentBox>
-				<S_UserIcon src={userImg} />
-				<S_CommentInput
-					onChange={(e) => {
-						CommentInputValidator(e);
-					}}
-					value={commentContent}
-          placeholder='댓글 입력하기...'
-				/>
-				{btnHandler === true ? (
-					<>
-						<S_CommentUploadButton onClick={btnClickEvent} src={commentbtn} />
-					</>
-				) : (
-					<></>
-				)}
-			</S_CommentBox>
+			<S_StickyBox>
+			  <S_CommentBox>
+  				<S_UserIcon src={userImg} />
+  				<S_CommentInput
+  					ref={inputRef}
+  					onChange={CommentInputValidator}
+  					value={commentContent}
+  					placeholder="댓글 입력하기..."
+  					onKeyDown={enterEventHandler}
+  				/>
+  				{!!commentContent ? (
+  					<>
+  						<S_CommentUploadButton onClick={btnClickEvent} src={commentbtn} />
+  					</>
+  				) : (
+  					<></>
+  				)}
+  			</S_CommentBox>
+			</S_StickyBox>
 		</>
 	);
 }
 
+const S_StickyBox = styled.div`
+  position: sticky;
+  bottom: 0px;
+`
 const S_CommentBox = styled.div`
 	display: flex;
 	height: 60px;
@@ -84,14 +86,15 @@ const S_CommentInput = styled.input`
 	border-radius: 18px;
 	border: 1px solid ${palette.bottomBar[2]};
 	background-color: ${palette.bottomBar[1]};
-	padding: 0 13px 1px;
+	padding: 0 38px 0 13px;
 	font-size: 14px;
-  font-weight: 400;
-  ::placeholder {
-    padding-bottom: 3px;
-    font-size: 12px;
-    font-weight: 300;
-  }
+  line-height: 15px;
+	font-weight: 400;
+	::placeholder {
+    line-height: 20px;
+		font-size: 13px;
+		font-weight: 100;
+	}
 `;
 const S_CommentUploadButton = styled.img`
 	width: 24px;

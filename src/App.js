@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import GlobalStyle from './lib/styles/globalStyle';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Background from './component/background/Background';
 import styled from 'styled-components';
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoginStateContext } from './component/context/LoginContext';
 import Modals from './component/modal/Modals';
 import Splash from './pages/Home/Splash';
@@ -18,7 +19,7 @@ import ProductEditPage from './pages/Product/ProductEditPage';
 import Page404 from './pages/ErrorPage/Page404';
 import PostDetailPage from './pages/Post/PostDetailPage';
 import PostUploadPage from './pages/Post/PostUploadPage';
-import Provider from './component/context/Provider';
+import AppProvider from './component/context/AppProvider';
 import FollowerPage from './pages/Follow/FollowerPage';
 import FollowingPage from './pages/Follow/FollowingPage';
 import ChatListPage from './pages/Chat/ChatListPage';
@@ -29,6 +30,7 @@ function Main() {
 	return (
 		<>
 			<GlobalStyle />
+      <Background />
 			<FrameContainer>
 				<BrowserRouter>
 					<Routes>
@@ -70,9 +72,9 @@ function Main() {
 
 export default function App() {
 	return (
-		<Provider>
+		<AppProvider>
 			<Main />
-		</Provider>
+		</AppProvider>
 	);
 }
 
@@ -85,4 +87,6 @@ const FrameContainer = styled.div`
 	margin: 0 auto;
 	background-color: #f3f1e8;
 	box-shadow: 0px 0px 10px #adadad;
+  position: relative;
+  z-index: 10;
 `;

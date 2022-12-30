@@ -11,7 +11,7 @@ import { getPostList } from './../../lib/apis/postApis';
 
 import morePostIcon from '../../assets/icons/more_post.png';
 import message from '../../assets/icons/message.png';
-import defaultProfileImg from '../../assets/icons/basic_profile.png';
+import postAltImg from '../../assets/image/post_alt_img.png';
 
 export default function PostItem({
 	id,
@@ -79,7 +79,7 @@ export default function PostItem({
 	};
 
 	const handleErrorImg = (e) => {
-		e.target.src = defaultProfileImg;
+		e.target.src = postAltImg;
 	};
 	const createdAtPost = createdAt.substr(0, 11).replace('-', '년 ').replace('-', '월 ').replace('T', '일');
 
@@ -96,9 +96,7 @@ export default function PostItem({
 				</S_PostItemHeader>
 				<S_ContentBox>
 					<S_Text>{content}</S_Text>
-					<S_ImgBox>
-						<S_Img src={image} alt="포스트 이미지" onError={handleErrorImg} />
-					</S_ImgBox>
+					<S_ImgBox>{image && <S_Img src={image} alt="포스트 이미지" onError={handleErrorImg} />}</S_ImgBox>
 					<S_SnsDate>
 						<S_Sns>
 							<HeartButton onClick={handleHeartClick} pushHeart={pushHeart} />
@@ -123,7 +121,7 @@ const S_PostItemHeader = styled.div`
 	height: 50px;
 	display: flex;
 	position: relative;
-  cursor: pointer;
+	cursor: pointer;
 `;
 const S_ProfileImg = styled.img`
 	width: 50px;
