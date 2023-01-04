@@ -62,9 +62,9 @@ export default function CommentItem({ author, content, createdAt, id, post_id, s
 						<S_CommenterName onClick={moveProfilePage}>{author.username}</S_CommenterName>
 						<span>{convertedTime}</span>
 					</S_UserDate>
-					<S_CommentModalButton src={moreHeader} onClick={handleModalClick} />
-					<p>{content}</p>
+					<S_content>{content}</S_content>
 				</S_Comment>
+				<S_CommentModalButton src={moreHeader} onClick={handleModalClick} />
 			</S_CommentBox>
 		</>
 	);
@@ -72,11 +72,15 @@ export default function CommentItem({ author, content, createdAt, id, post_id, s
 
 const S_CommentBox = styled.li`
 	display: flex;
-	height: 60px;
-	justify-content: center;
-	align-items: center;
+	min-height: 60px;
+	justify-content: flex-start;
 	gap: 18px;
 	position: relative;
+	align-items: flex-start;
+	padding: 15px 7px;
+	width: 350px;
+	letter-spacing: 0.5px;
+	line-height: 15px;
 `;
 const S_UserIcon = styled.img`
 	width: 36px;
@@ -94,8 +98,10 @@ const S_Comment = styled.div`
 	gap: 7px;
 	font-size: 14px;
 	font-weight: 400;
+	min-width: 240px;
+	word-wrap: break-word;
 `;
-const S_UserDate = styled.p`
+const S_UserDate = styled.div`
 	span {
 		color: #767676;
 		font-size: 12px;
@@ -103,15 +109,19 @@ const S_UserDate = styled.p`
 		font-weight: 300;
 	}
 `;
+const S_CommenterName = styled.div`
+	display: inline-block;
+	cursor: pointer;
+`;
+const S_content = styled.p`
+	margin-right: 14px;
+	font-weight: 300;
+	line-height: 18px;
+`;
 const S_CommentModalButton = styled.img`
 	width: 20px;
 	height: 20px;
 	position: absolute;
 	right: 3px;
-	cursor: pointer;
-`;
-
-const S_CommenterName = styled.div`
-	display: inline-block;
 	cursor: pointer;
 `;

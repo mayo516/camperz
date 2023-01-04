@@ -20,8 +20,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: rgb(217,205,124);
-    background: linear-gradient(115deg, rgba(217,205,124,1) 0%, rgba(234,241,231,1) 66%, rgba(194,218,181,1) 91%);
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 300; /* 100 = 얇게, 300 = 보통, 400 = 두껍게 */
     overflow-y: hidden;
@@ -84,6 +82,29 @@ const GlobalStyle = createGlobalStyle`
   textarea::placeholder {
     color: #92918A;
   }
+
+  .loading-indicator:before {
+    content: '';
+    background: rgba(243, 241, 232, 0);
+    position: fixed;
+    width: 390px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.loading-indicator::after {
+    content: url("https://mandarin.api.weniv.co.kr/1672628195069.gif");
+    position: fixed;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    z-index: 1001;
+    color:white;
+    text-align:center;
+    font-weight:bold;
+}
 `;
 
 export default GlobalStyle;

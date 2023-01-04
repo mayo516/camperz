@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './lib/styles/globalStyle';
 import Background from './component/background/Background';
 import styled from 'styled-components';
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoginStateContext } from './component/context/LoginContext';
 import Modals from './component/modal/Modals';
 import Splash from './pages/Home/Splash';
@@ -30,7 +29,6 @@ function Main() {
 	return (
 		<>
 			<GlobalStyle />
-      <Background />
 			<FrameContainer>
 				<BrowserRouter>
 					<Routes>
@@ -73,6 +71,7 @@ function Main() {
 export default function App() {
 	return (
 		<AppProvider>
+			<Background />
 			<Main />
 		</AppProvider>
 	);
@@ -87,6 +86,5 @@ const FrameContainer = styled.div`
 	margin: 0 auto;
 	background-color: #f3f1e8;
 	box-shadow: 0px 0px 10px #adadad;
-  position: relative;
-  z-index: 10;
+	position: relative;
 `;
